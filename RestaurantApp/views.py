@@ -27,26 +27,10 @@ def table_init(request):
         return redirect('menu')
 
 def menu(request):
-    # menu = Menu.objects.all()
     categories = Categories.objects.values('name')
-    # print(menu)
-    # print(categories)
-    # for e in categories:
-        # print(e['name'])
-
-    # d = {e['name']:[] for e in categories}
-    d = [e['name'] for e in categories]
-    print(d)
-    # print(Menu.objects.filter(category=d[0]))
-    c = {e:Menu.objects.filter(category=e) for e in d}
-    print(c)
-    for item in c:
-        print(c[item])
-        for i in c[item]:
-            print(i.name)
-
+    cat_list = [e['name'] for e in categories]
+    menu = {e: Menu.objects.filter(category=e) for e in cat_list}
 
     return render(request, 'menu.html', {
-        'menu': c,
-        'categories': d
+        'menu': menu,
     })
