@@ -35,8 +35,16 @@ def menu(request):
         'menu': menu,
     })
 
-def menu_item_detail(request, item_id):
+def menu_item_detail(request, category_id, item_id):
     item = get_object_or_404(Menu, pk=item_id)
     return render(request, 'item_detail.html', {
         'item': item,
+    })
+
+def menu_category(request, category_id):
+    category = get_object_or_404(Categories, pk=category_id)
+    items = Menu.objects.filter(category=category)
+    return render(request, 'category.html', {
+        'category': category,
+        'items': items,
     })

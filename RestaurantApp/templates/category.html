@@ -1,0 +1,11 @@
+<h1>{{category.name}}</h1>
+{% for item in items %}
+<ul>
+    <li>
+        <a href="{% url 'item_details' category.name item.id %}">
+            <h3>{{item.name}}</h3>
+            <p>{{item.description}}</p>
+        </a>
+    </li>
+</ul>
+{% endfor %}

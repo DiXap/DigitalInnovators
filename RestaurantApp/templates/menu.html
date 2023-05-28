@@ -2,11 +2,13 @@
 
 {% for key, value in menu.items %}
 <section>
-    <h2>{{key}}</h2>
+    <h2>
+        <a href="{% url 'category' key %}">{{key}}</a>
+    </h2>
     <ul>
         {% for item in value %}
         <li>
-            <a href="{% url 'item_details' item.id %}">
+            <a href="{% url 'item_details' key item.id %}">
                 <h3>{{item.name}}</h3>
                 <p>{{item.description}}</p>
             </a>
