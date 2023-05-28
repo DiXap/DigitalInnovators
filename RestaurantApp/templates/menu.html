@@ -1,1 +1,15 @@
 <h1>Este es el menu</h1>
+
+{% for key, value in menu.items %}
+<section>
+    <h2>{{key}}</h2>
+    <ul>
+        {% for item in value %}
+        <li>
+            <h3>{{item.name}}</h3>
+            <p>{{item.description}}</p>
+        </li>
+        {% endfor %}
+    </ul>
+</section>
+{% endfor %}

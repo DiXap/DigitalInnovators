@@ -6,3 +6,13 @@ class Categories(models.Model):
 
     def __str__(self) -> str:
         return self.name
+
+class Menu(models.Model):
+    name = models.CharField(max_length=200, unique=True)
+    description = models.TextField(blank=True)
+    price = models.DecimalField(max_digits=6, decimal_places=2)
+
+    category = models.ForeignKey(Categories, on_delete=models.CASCADE)
+
+    def __str__(self) -> str:
+        return f'{self.name}: {self.category}'
