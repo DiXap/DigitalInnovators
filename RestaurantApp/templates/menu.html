@@ -6,8 +6,10 @@
     <ul>
         {% for item in value %}
         <li>
-            <h3>{{item.name}}</h3>
-            <p>{{item.description}}</p>
+            <a href="{% url 'item_details' item.id %}">
+                <h3>{{item.name}}</h3>
+                <p>{{item.description}}</p>
+            </a>
         </li>
         {% endfor %}
     </ul>

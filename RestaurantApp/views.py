@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
@@ -33,4 +33,10 @@ def menu(request):
 
     return render(request, 'menu.html', {
         'menu': menu,
+    })
+
+def menu_item_detail(request, item_id):
+    item = get_object_or_404(Menu, pk=item_id)
+    return render(request, 'item_detail.html', {
+        'item': item,
     })
