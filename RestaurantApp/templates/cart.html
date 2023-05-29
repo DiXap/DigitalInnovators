@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>50 amigos - Resumen de orden</title>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li>
+                <a href="{% url 'menu' %}">Menu</a>
+            </li>
+        </ul>
+    </nav>
+    <h1>Orden</h1>
+    
+    <h2>Resumen</h2>
+    {% comment %}
+    <ul>
+        {% for key, value in order.items %}
+        <li>
+            <h3>{{key}}</h3>
+            <p>{{value}}</p>
+        </li>
+        {% endfor %}
+    </ul>
+    {% endcomment %}
+    <ul>
+        {% for key, value in breakdown %}
+        <li>
+            <h3>{{key}}</h3>
+            <p>{{value}}</p>
+        </li>
+        {% endfor %}
+    </ul>
+    <h3>Total: $ {{total}}</h3>
+
+</body>
+</html>

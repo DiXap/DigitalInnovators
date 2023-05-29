@@ -2,8 +2,12 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
+from django.db.models import Count, Sum
 
-from .models import Menu, Categories
+from .models import Menu, Categories, CartItem
+
+from collections import Counter
+import decimal
 
 # Create your views here.
 def home(request):
@@ -48,3 +52,55 @@ def menu_category(request, category_id):
         'category': category,
         'items': items,
     })
+
+def cart(request):
+    if request.method == 'GET':  # TODO. Try to use a query
+        try:
+            cart = CartItem.objects.filter(table= request.user)
+            order = cart.values('item').annotate(Count('item')).filter(item__count__gt=0)
+
+            # items = cart.order_by('item').filter(item__in=[i['item'] for i in order])
+
+            a = [e.item.name for e in cart]
+            # b = {e.item.name: e.item.price for e in cart}
+            # b = CartItem.objects.annotate(sub_total=Sum("item__price"))
+            dupes = dict(Counter(a))
+            b = {key: value for key, value in dupes.items()}
+            # for item in b.keys():
+                # print(decimal.Decimal(b[item]) * cart[0].item.price)
+
+            for i in cart:
+                print(i.item.name, i.item.price)
+                
+            c = {key.item.name: key.item.price for key in cart}
+
+            for i in b.keys():
+                c[i] = decimal.Decimal(b[i]) * c[i]
+
+            d = [(i.item.name, i.item.price) for i in cart]
+
+            print(cart)
+            # print(cart[0].item.price)
+            # print(order[0]['item'])
+            # print(order)
+
+            # print(a)
+            print(b)
+            print(c)
+            print(d)
+
+            t = decimal.Decimal(0)
+            for i, price in d:
+                t += price
+
+            print(t)
+
+            return render(request, 'cart.html', {
+                'cart': b,
+                'order': c,
+                'breakdown': d,
+                'total': t,
+            })
+        except:
+            pass
+    return render(request, 'cart.html')
