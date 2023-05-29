@@ -69,8 +69,8 @@ def cart(request):
             # for item in b.keys():
                 # print(decimal.Decimal(b[item]) * cart[0].item.price)
 
-            for i in cart:
-                print(i.item.name, i.item.price)
+            # for i in cart:
+                # print(i.item.name, i.item.price)
                 
             c = {key.item.name: key.item.price for key in cart}
 
@@ -79,15 +79,15 @@ def cart(request):
 
             d = [(i.item.name, i.item.price) for i in cart]
 
-            print(cart)
+            # print(cart)
             # print(cart[0].item.price)
             # print(order[0]['item'])
             # print(order)
 
             # print(a)
-            print(b)
-            print(c)
-            print(d)
+            # print(b)
+            # print(c)
+            # print(d)
 
             t = decimal.Decimal(0)
             for i, price in d:
@@ -104,3 +104,20 @@ def cart(request):
         except:
             pass
     return render(request, 'cart.html')
+
+
+def cart_add_item(request, category_id, item_id):
+    # menu_item = get_object_or_404(Menu, pk=item_id)
+    # print(menu_item)
+    # return menu_item_detail(request, category_id, item_id)
+    try:
+        menu_item = get_object_or_404(Menu, pk=item_id)
+        cart_item = CartItem(item=menu_item, table=request.user)
+        cart_item.save()
+
+        print(menu_item)
+        print(cart_item)
+
+        return redirect('menu')
+    except:
+        return menu_item_detail(request, category_id, item_id)
