@@ -1,3 +1,7 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
 <h1>Este es el menu</h1>
 
 {% for key, value in menu.items %}
@@ -17,3 +21,5 @@
     </ul>
 </section>
 {% endfor %}
+
+{% endblock %}
