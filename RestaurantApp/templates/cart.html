@@ -24,6 +24,14 @@
         {% endfor %}
         <p class="fs-2 fw-bold ms-auto text-end mt-3">Total: $ {{total}}</p>
     </div>
+    <div class="my-5">
+        <form action="" method="POST">
+            {% csrf_token %}
+            <button class="btn btn-danger btn-lg" type="submit">
+                Checkout
+            </button>
+        </form>
+    </div>
 </div>
 <div class="col">
     <img src="https://images.unsplash.com/photo-1482049016688-2d3e1b311543?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=710&q=80" 
