@@ -6,11 +6,13 @@
 
 {% block content %}
 
-<div class="d-flex flex-column justify-content-center align-items-center mx-auto text-center mt-5">
-    <h1 class="fs-1">Menú</h1>
-    <div class="row gap-4 p-5">
-        {% for key, value in menu.items %}
-        <div class="position-relative col px-1" style="max-width: 350px;">
+<div class="container-fluid mx-auto text-center my-5 mw-90">
+    <h1 class="fs-1 mb-5">Menú</h1>
+    {% for key, value in menu.items %}
+    {% if forloop.first %}
+    <div class="row gap-4 d-flex flex-row justify-content-center">
+    {% endif %}
+        <div class="position-relative col-md-2 px-1" style="max-width: 350px;">
             <img 
                 id="cat-thumbnail"
                 src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" 
@@ -25,8 +27,13 @@
                 </div>
             </a>
         </div>
-        {% endfor %}
+    {% if forloop.counter|divisibleby:3 %}
+    </div><div class="row gap-4 mt-4 d-flex flex-row justify-content-center">
+    {% endif %}
+    {% if forloop.last %}
     </div>
+    {% endif %}
+    {% endfor %}
 </div>
 
 {% endblock %}

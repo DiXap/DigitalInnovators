@@ -5,10 +5,12 @@
 {% endblock %}
 
 {% block content %}
-<div class="d-flex flex-column justify-content-center align-items-center mx-auto text-center mt-5">
-    <h1 class="fs-1">{{category.name}}</h1>
-    <div class="row gap-4 p-5">
-        {% for item in items %}
+<div class="container-fluid mx-auto text-center my-5">
+    <h1 class="fs-1 mb-5">{{category.name}}</h1>
+    {% for item in items %}
+    {% if forloop.first %}
+    <div class="row gap-4 d-flex flex-row justify-content-center">
+    {% endif %}
         <div class="position-relative col px-1" style="max-width: 350px;">
             <img 
             id="cat-thumbnail"
@@ -28,8 +30,14 @@
                 <p class="text-start">{{item.description}}</p>
             </div>
         </div>
-        {% endfor %}
+    {% if forloop.counter|divisibleby:3 %}
+    </div><div class="row gap-4 mt-4 d-flex flex-row justify-content-center">
+    {% endif %}
+    {% if forloop.last %}
     </div>
+    {% endif %}
+    {% endfor %}
+
 </div>
 
 {% endblock %}
