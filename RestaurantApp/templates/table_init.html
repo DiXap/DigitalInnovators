@@ -74,25 +74,11 @@
     <nav class="navbar sticky-top container-fluid d-flex justify-content-between align-items-center px-5 py-3 bg-orange" style="background-color: #f48020;">
         <div class="text-center">
             <h1 class="fs-3 fw-semibold">
-                <a href="{% url 'menu' %}" style="color: rgb(237, 218, 218);">50 amigos</a>
+                <a href="{% url 'home' %}" style="color: rgb(237, 218, 218);">50 amigos</a>
             </h1>
         </div>
-        
-        <!---- <div class="ml-auto">
-            <ul class="d-flex align-items-center gap-5 list-unstyled my-auto">
-                <li class="align-self-center">
-                    <a href="{% url 'menu' %}">Menu</a> 
-                </li>
-                {% if request.path != '/orden/' %}
-                <li class="align-self-center">
-                    <a href="{% url 'cart' %}">Orden</a>
-                </li>
-                {% endif %}
-            </ul>
-        </div> -->
-
     </nav>
-    <div class="container">
+    <div class="container my-5">
         {% block content %}
         <h1>Login</h1>
         {{ error }}

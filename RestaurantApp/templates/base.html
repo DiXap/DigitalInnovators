@@ -23,11 +23,16 @@
     >
         <div class="text-center">
             <h1 class="fs-3 fw-semibold">
+                {% if request.path == '/' %}
+                <a href="{% url 'home' %}" style="color: rgba(243, 222, 222, 0.961);">
+                {% else %}
                 <a href="{% url 'menu' %}" style="color: rgba(243, 222, 222, 0.961);">
+                {% endif %}
                     50 amigos
                 </a>
             </h1>
         </div>
+        {% if request.path != '/' %}
         <div class="ml-auto">
             <ul class="d-flex align-items-center gap-5 list-unstyled my-auto">
                 <li class="align-self-center">
@@ -44,6 +49,7 @@
                 {% endif %}
             </ul>
         </div>
+        {% endif %}
     </nav>
     <div>
         {% block content %}

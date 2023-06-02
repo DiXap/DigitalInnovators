@@ -3,6 +3,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
 from django.db.models import Count, Sum
+from django.contrib.auth.decorators import login_required
 
 from .models import Menu, Categories, CartItem
 
@@ -30,6 +31,7 @@ def table_init(request):
         login(request, user)
         return redirect('menu')
 
+@login_required
 def menu(request):
     categories = Categories.objects.values('name')
     cat_list = [e['name'] for e in categories]
@@ -39,12 +41,14 @@ def menu(request):
         'menu': menu,
     })
 
+@login_required
 def menu_item_detail(request, category_id, item_id):
     item = get_object_or_404(Menu, pk=item_id)
     return render(request, 'item_detail.html', {
         'item': item,
     })
 
+@login_required
 def menu_category(request, category_id):
     category = get_object_or_404(Categories, pk=category_id)
     items = Menu.objects.filter(category=category)
@@ -53,6 +57,7 @@ def menu_category(request, category_id):
         'items': items,
     })
 
+@login_required
 def cart(request):
     if request.method == 'GET':  # TODO. Try to use a query
         try:
@@ -91,6 +96,7 @@ def cart(request):
     return render(request, 'cart.html')
 
 
+@login_required
 def cart_add_item(request, category_id, item_id):
     try:
         menu_item = get_object_or_404(Menu, pk=item_id)
