@@ -1,33 +1,103 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="{% static 'global.css' %}" rel="stylesheet">
+    {% block title %}
     <title>50 amigos - Login</title>
+    {% endblock %}
+    <style>
+        body {
+            font-family: 'Raleway', sans-serif;
+            background-image: url("{% static 'images/heladofondo2.jpg' %}");
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 50px 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(243, 228, 228, 0);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #333;
+        }
+  
+
+        label {
+            font-weight: bold;
+            color: #333;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #9f20f4;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #8200e6;
+        }
+    </style>
 </head>
 <body>
-    <main>
+    <nav class="navbar sticky-top container-fluid d-flex justify-content-between align-items-center px-5 py-3 bg-orange" style="background-color: #f48020;">
+        <div class="text-center">
+            <h1 class="fs-3 fw-semibold">
+                <a href="{% url 'home' %}" style="color: rgb(237, 218, 218);">50 amigos</a>
+            </h1>
+        </div>
+    </nav>
+    <div class="container my-5">
+        {% block content %}
+        <h1>Login</h1>
+        {{ error }}
+
         <form action="{% url 'table_init' %}" method="POST">
-            <h1>Login</h1>
-            {{error}}
-
             {% csrf_token %}
-
             <div>
                 <label for="table">Mesa:</label>
-                <input type="text", id="table", name="username", placeholder="Ingresa el código de la mesa">
+                <input type="text" id="table" name="username" placeholder="Ingresa el código de la mesa">
             </div>
             <div>
                 <label for="password">Contraseña:</label>
-                <input type="password", id="password", name="password", placeholder="Contraseña">
+                <input type="password" id="password" name="password" placeholder="Contraseña">
             </div>
 
-            <button>
-                Iniciar
-            </button>
+            <button>Iniciar</button>
         </form>
-    </main>
-
+        {% endblock %}
+    </div>
 </body>
 </html>
+
