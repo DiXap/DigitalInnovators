@@ -92,17 +92,11 @@ def cart(request):
 
 
 def cart_add_item(request, category_id, item_id):
-    # menu_item = get_object_or_404(Menu, pk=item_id)
-    # print(menu_item)
-    # return menu_item_detail(request, category_id, item_id)
     try:
         menu_item = get_object_or_404(Menu, pk=item_id)
         cart_item = CartItem(item=menu_item, table=request.user)
         cart_item.save()
 
-        print(menu_item)
-        print(cart_item)
-
-        return redirect('menu')
+        return redirect('item_detail')
     except:
         return menu_item_detail(request, category_id, item_id)
