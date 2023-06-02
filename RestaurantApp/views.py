@@ -56,50 +56,35 @@ def menu_category(request, category_id):
 def cart(request):
     if request.method == 'GET':  # TODO. Try to use a query
         try:
+            # Query
             cart = CartItem.objects.filter(table= request.user)
-            order = cart.values('item').annotate(Count('item')).filter(item__count__gt=0)
 
-            # items = cart.order_by('item').filter(item__in=[i['item'] for i in order])
-
+            # Get dupes
             a = [e.item.name for e in cart]
-            # b = {e.item.name: e.item.price for e in cart}
-            # b = CartItem.objects.annotate(sub_total=Sum("item__price"))
             dupes = dict(Counter(a))
             b = {key: value for key, value in dupes.items()}
-            # for item in b.keys():
-                # print(decimal.Decimal(b[item]) * cart[0].item.price)
 
-            # for i in cart:
-                # print(i.item.name, i.item.price)
-                
+            # Get item prices
             c = {key.item.name: key.item.price for key in cart}
 
+            # Build a dict with relevant info to display in template
+            breakdown = {i: [decimal.Decimal(v)] for i, v in b.items()}
+
+            for i in c.keys():
+                breakdown[i].append(c[i])
+
+            # Get cart total per item
             for i in b.keys():
                 c[i] = decimal.Decimal(b[i]) * c[i]
 
-            d = [(i.item.name, i.item.price) for i in cart]
-
-            # print(cart)
-            # print(cart[0].item.price)
-            # print(order[0]['item'])
-            # print(order)
-
-            # print(a)
-            # print(b)
-            # print(c)
-            # print(d)
-
-            t = decimal.Decimal(0)
-            for i, price in d:
-                t += price
-
-            print(t)
+            # Calculate order total
+            total = decimal.Decimal(0)
+            for i, price in c.items():
+                total += price
 
             return render(request, 'cart.html', {
-                'cart': b,
-                'order': c,
-                'breakdown': d,
-                'total': t,
+                'breakdown': breakdown,
+                'total': total,
             })
         except:
             pass
@@ -107,17 +92,11 @@ def cart(request):
 
 
 def cart_add_item(request, category_id, item_id):
-    # menu_item = get_object_or_404(Menu, pk=item_id)
-    # print(menu_item)
-    # return menu_item_detail(request, category_id, item_id)
     try:
         menu_item = get_object_or_404(Menu, pk=item_id)
         cart_item = CartItem(item=menu_item, table=request.user)
         cart_item.save()
 
-        print(menu_item)
-        print(cart_item)
-
-        return redirect('menu')
+        return redirect('item_detail')
     except:
         return menu_item_detail(request, category_id, item_id)
