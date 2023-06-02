@@ -14,12 +14,13 @@
     <title>50 amigos - Login</title>
     {% endblock %}
     <style>
-        body {
+        main {
             font-family: 'Raleway', sans-serif;
             background-image: url("{% static 'images/heladofondo2.jpg' %}");
             background-repeat: no-repeat;
             background-size: cover;
             background-position: center;
+            min-height: 100vh;
         }
 
         .container {
@@ -63,6 +64,7 @@
             border-radius: 5px;
             font-size: 16px;
             cursor: pointer;
+            font-weight: 700;
         }
 
         button:hover {
@@ -71,9 +73,11 @@
     </style>
 </head>
 <body>
-    <nav class="navbar sticky-top container-fluid d-flex justify-content-between align-items-center px-5 py-3 bg-orange" style="background-color: #f48020;">
+    <main>
+
+    <nav class="navbar sticky-top container-fluid d-flex justify-content-between align-items-center px-5 py-3 bg-transparent" style="background-color: #f48020;">
         <div class="text-center">
-            <h1 class="fs-3 fw-semibold">
+            <h1 class="fs-2 fw-bold">
                 <a href="{% url 'home' %}" style="color: rgb(237, 218, 218);">50 amigos</a>
             </h1>
         </div>
@@ -81,7 +85,10 @@
     <div class="container my-5">
         {% block content %}
         <h1>Login</h1>
-        {{ error }}
+        
+        <p class="fw-semibold text-danger">
+            {{ error }}
+        </p>
 
         <form action="{% url 'table_init' %}" method="POST">
             {% csrf_token %}
@@ -98,6 +105,8 @@
         </form>
         {% endblock %}
     </div>
+
+    </main>
 </body>
 </html>
 
