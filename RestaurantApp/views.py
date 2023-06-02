@@ -56,55 +56,35 @@ def menu_category(request, category_id):
 def cart(request):
     if request.method == 'GET':  # TODO. Try to use a query
         try:
+            # Query
             cart = CartItem.objects.filter(table= request.user)
 
+            # Get dupes
             a = [e.item.name for e in cart]
             dupes = dict(Counter(a))
             b = {key: value for key, value in dupes.items()}
-                
+
+            # Get item prices
             c = {key.item.name: key.item.price for key in cart}
-            print(c)
-            x = {i: [decimal.Decimal(v)] for i, v in b.items()}
-            print(x)
+
+            # Build a dict with relevant info to display in template
+            breakdown = {i: [decimal.Decimal(v)] for i, v in b.items()}
 
             for i in c.keys():
-                x[i].append(c[i])
+                breakdown[i].append(c[i])
 
-            print(x)
-
+            # Get cart total per item
             for i in b.keys():
                 c[i] = decimal.Decimal(b[i]) * c[i]
 
-
-            d = [(i.item.name, i.item.price) for i in cart]
-
-            # print(cart)
-            # print(cart[0].item.price)
-            # print(order[0]['item'])
-            # print(order)
-
-            # print(a)
-            # print(f'b {b}')
-            # print(f'c {c}')
-            # print(f'd {d}')
-
-            f = {'Limon': [1, 2], 'Naranja': [4, 5]}
-
-                
-
-            t = decimal.Decimal(0)
-            for i, price in d:
-                t += price
-
-            # print(t)
+            # Calculate order total
+            total = decimal.Decimal(0)
+            for i, price in c.items():
+                total += price
 
             return render(request, 'cart.html', {
-                'cart': b,
-                'order': c,
-                'orderKeys': b.keys(),
-                'breakdown': d,
-                'total': t,
-                'debug': x,
+                'breakdown': breakdown,
+                'total': total,
             })
         except:
             pass

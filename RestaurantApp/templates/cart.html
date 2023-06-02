@@ -6,35 +6,32 @@
 
 {% block content %}
 
-<div class="d-flex flex-column justify-content-center align-items-center mx-auto text-center my-4" style="max-width: 750px;">    
-    <div class="">
-        {% for i, val in debug.items %}
-        <div class="text-start">
-            <p class="fs-3">{{i}}</p>
-        </div>
-        <div class="d-flex flex-row justify-content-start gap-5">
-            {% for j in val %}
-            <p>{{j}}</p>
-            {% endfor %}
-        </div>
-            {% endfor %}
-            <h3 class="ms-auto text-end">Total: $ {{total}}</h3>
-        </div>
+<div class="row vh-100 over-flow-scroll">
+<div 
+    class="col-3 d-flex flex-column justify-content-center align-items-center mx-auto mb-auto text-center mt-5 border" 
+>    
+    <p class="fs-1 my-3">Resumen</p>
+    <div class="mt-2">
+        {% for i, val in breakdown.items %}
+            <div class="text-start">
+                <p class="fs-3">{{i}}</p>
+            </div>
+            <div class="d-flex flex-row justify-content-start gap-5">
+                {% for j in val %}
+                    <p class="fs-5">{{j}}</p>
+                {% endfor %}
+            </div>
+        {% endfor %}
+        <p class="fs-2 fw-bold ms-auto text-end mt-3">Total: $ {{total}}</p>
+    </div>
+</div>
+<div class="col">
+    <img src="https://images.unsplash.com/photo-1482049016688-2d3e1b311543?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=710&q=80" 
+    alt="Carrito"
+    class="w-100"
+    >
 </div>
 
-{% comment %}
-<div class="d-flex flex-column justify-content-center align-items-center mx-auto text-center my-4" style="max-width: 750px;">    
-    <p class="fs-1">Resumen</p>
-    <ul class="list-unstyled mt-4">
-        {% for key, value in order.items %}
-        <li>
-            <h3>{{key}}</h3>
-            <p class="text-end">{{value}}</p>
-        </li>
-        {% endfor %}
-    </ul>
-    <h3 class="ms-auto">Total: $ {{total}}</h3>
 </div>
-{% endcomment %}
 
 {% endblock %}
