@@ -7,9 +7,26 @@
 {% block content %}
 
 <div class="d-flex flex-column justify-content-center align-items-center mx-auto text-center my-4" style="max-width: 750px;">    
+    <div class="">
+        {% for i, val in debug.items %}
+        <div class="text-start">
+            <p class="fs-3">{{i}}</p>
+        </div>
+        <div class="d-flex flex-row justify-content-start gap-5">
+            {% for j in val %}
+            <p>{{j}}</p>
+            {% endfor %}
+        </div>
+            {% endfor %}
+            <h3 class="ms-auto text-end">Total: $ {{total}}</h3>
+        </div>
+</div>
+
+{% comment %}
+<div class="d-flex flex-column justify-content-center align-items-center mx-auto text-center my-4" style="max-width: 750px;">    
     <p class="fs-1">Resumen</p>
     <ul class="list-unstyled mt-4">
-        {% for key, value in breakdown %}
+        {% for key, value in order.items %}
         <li>
             <h3>{{key}}</h3>
             <p class="text-end">{{value}}</p>
@@ -18,5 +35,6 @@
     </ul>
     <h3 class="ms-auto">Total: $ {{total}}</h3>
 </div>
+{% endcomment %}
 
 {% endblock %}

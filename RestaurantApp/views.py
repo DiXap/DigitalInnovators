@@ -57,25 +57,24 @@ def cart(request):
     if request.method == 'GET':  # TODO. Try to use a query
         try:
             cart = CartItem.objects.filter(table= request.user)
-            order = cart.values('item').annotate(Count('item')).filter(item__count__gt=0)
-
-            # items = cart.order_by('item').filter(item__in=[i['item'] for i in order])
 
             a = [e.item.name for e in cart]
-            # b = {e.item.name: e.item.price for e in cart}
-            # b = CartItem.objects.annotate(sub_total=Sum("item__price"))
             dupes = dict(Counter(a))
             b = {key: value for key, value in dupes.items()}
-            # for item in b.keys():
-                # print(decimal.Decimal(b[item]) * cart[0].item.price)
-
-            # for i in cart:
-                # print(i.item.name, i.item.price)
                 
             c = {key.item.name: key.item.price for key in cart}
+            print(c)
+            x = {i: [decimal.Decimal(v)] for i, v in b.items()}
+            print(x)
+
+            for i in c.keys():
+                x[i].append(c[i])
+
+            print(x)
 
             for i in b.keys():
                 c[i] = decimal.Decimal(b[i]) * c[i]
+
 
             d = [(i.item.name, i.item.price) for i in cart]
 
@@ -85,21 +84,27 @@ def cart(request):
             # print(order)
 
             # print(a)
-            # print(b)
-            # print(c)
-            # print(d)
+            # print(f'b {b}')
+            # print(f'c {c}')
+            # print(f'd {d}')
+
+            f = {'Limon': [1, 2], 'Naranja': [4, 5]}
+
+                
 
             t = decimal.Decimal(0)
             for i, price in d:
                 t += price
 
-            print(t)
+            # print(t)
 
             return render(request, 'cart.html', {
                 'cart': b,
                 'order': c,
+                'orderKeys': b.keys(),
                 'breakdown': d,
                 'total': t,
+                'debug': x,
             })
         except:
             pass
