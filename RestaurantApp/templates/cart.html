@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>50 amigos - Orden </title>
+{% endblock %}
+
+{% block content %}
+
+<div class="d-flex flex-column justify-content-center align-items-center mx-auto text-center my-4" style="max-width: 750px;">    
+    <p class="fs-1">Resumen</p>
+    <ul class="list-unstyled mt-4">
+        {% for key, value in breakdown %}
+        <li>
+            <h3>{{key}}</h3>
+            <p class="text-end">{{value}}</p>
+        </li>
+        {% endfor %}
+    </ul>
+    <h3 class="ms-auto">Total: $ {{total}}</h3>
+</div>
+
+{% endblock %}

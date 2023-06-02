@@ -1,11 +1,35 @@
-<h1>{{category.name}}</h1>
-{% for item in items %}
-<ul>
-    <li>
-        <a href="{% url 'item_details' category.name item.id %}">
-            <h3>{{item.name}}</h3>
-            <p>{{item.description}}</p>
-        </a>
-    </li>
-</ul>
-{% endfor %}
+{% extends 'base.html' %}
+
+{% block title %}
+<title>50 amigos - {{category.name}}</title>
+{% endblock %}
+
+{% block content %}
+<div class="d-flex flex-column justify-content-center align-items-center mx-auto text-center mt-5">
+    <h1 class="fs-1">{{category.name}}</h1>
+    <div class="row gap-4 p-5">
+        {% for item in items %}
+        <div class="position-relative col px-1" style="max-width: 350px;">
+            <img 
+            id="cat-thumbnail"
+            src="https://images.unsplash.com/photo-1482049016688-2d3e1b311543?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=710&q=80"
+            alt={{item.name}}
+            class="img-fluid object-fit-contain rounded mw-100"
+            >
+            <a href="{% url 'item_details' category.name item.id %}">
+                <div class="d-flex justify-content-center align-items-center position-absolute top-0 start-0 bottom-0 end-0 thumbnail mw-50 mx-1 rounded">
+                    <p class="text-white fw-bold fs-4">
+                        {{item.name}}
+                    </p>
+                </div>
+            </a>
+            <div>
+                <h1 class="fs-4 pt-2">{{item.name}}</h1>
+                <p>{{item.description}}</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

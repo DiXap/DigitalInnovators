@@ -15,6 +15,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf import settings
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 from RestaurantApp import views
 
@@ -23,6 +25,10 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('init/', views.table_init, name='table_init'),
     path('menu/', views.menu, name='menu'),
-    path('menu/<str:category_id>', views.menu_category, name='category'),
-    path('menu/<str:category_id>/<int:item_id>', views.menu_item_detail, name='item_details'),
+    path('menu/<str:category_id>/', views.menu_category, name='category'),
+    path('menu/<str:category_id>/<int:item_id>/', views.menu_item_detail, name='item_details'),
+    path('menu/<str:category_id>/<int:item_id>/add/', views.cart_add_item, name='item_add'),
+    path('orden/', views.cart, name='cart'),
 ]
+
+urlpatterns += staticfiles_urlpatterns()
