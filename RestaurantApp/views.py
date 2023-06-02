@@ -106,3 +106,41 @@ def cart_add_item(request, category_id, item_id):
         return redirect('item_detail')
     except:
         return menu_item_detail(request, category_id, item_id)
+
+@login_required
+def modify_order(request):
+    if request.method == 'GET':  # TODO. Try to use a query
+        try:
+            # Query
+            cart = CartItem.objects.filter(table= request.user).order_by('-time')
+
+            # Build a dict with relevant info to display in template
+            order_items = [(i.item.name, i.item.price, i.pk) for i in cart]
+
+            # Calculate order total
+            total = decimal.Decimal(0)
+            for i, price, _ in order_items:
+                total += price
+
+            # print(cart)
+
+            return render(request, 'modify_order.html', {
+                'breakdown': order_items,
+                'total': total,
+            })
+        except:
+            pass
+    return render(request, 'modify_order.html')
+
+@login_required
+def cart_remove_item(request, item_id):
+    try:
+        cart_item = get_object_or_404(CartItem, pk=item_id)
+        cart_item.delete()
+        # print(f'item {cart_item}')
+
+        return redirect('modify_order')
+    except:
+        return render(request, 'modify_order.html', {
+            'error': 'No se ha podido completar la solicitud'
+        })
