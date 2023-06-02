@@ -13,10 +13,16 @@
     <link href="{% static 'global.css' %}" rel="stylesheet">
     {% block title %}
     {% endblock %}
-
+    <style>
+        main {
+            max-height: 95vh;
+            max-width: 100vw;
+        }
     </style>
 </head>
 <body>
+    <main>
+
     <nav 
         class="navbar sticky-top container-fluid d-flex justify-content-between align-items-center px-5 py-3 bg-orange"
         style="background-color: #f48020;"
@@ -55,5 +61,6 @@
         {% block content %}
         {% endblock %}
     </div>
+    </main>
 </body>
 </html>
