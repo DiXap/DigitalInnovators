@@ -1,0 +1,26 @@
+html {
+    font-family: 'Raleway', sans-serif !important;
+}
+
+a:link, a:hover, a:visited, a:active {
+    text-decoration: none;
+}
+
+.thumbnail {
+    object-fit: cover;
+}
+
+.thumbnail:hover {
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.thumbnail p{
+    visibility: hidden;
+}
+
+.thumbnail:hover > p {
+    color: whitesmoke;
+    visibility: visible;
+    animation: ease-in 300;
+}

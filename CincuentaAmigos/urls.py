@@ -15,6 +15,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf import settings
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 from RestaurantApp import views
 
@@ -28,3 +30,5 @@ urlpatterns = [
     path('menu/<str:category_id>/<int:item_id>/add/', views.cart_add_item, name='item_add'),
     path('orden/', views.cart, name='cart'),
 ]
+
+urlpatterns += staticfiles_urlpatterns()

@@ -1,27 +1,51 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>50 amigos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="{% static 'global.css' %}" rel="stylesheet">
+    {% block title %}
+    {% endblock %}
 </head>
 <body>
-    <nav>
-        <ul>
-            <li>
+    <nav 
+        class="navbar sticky-top container-fluid d-flex justify-content-between align-items-center px-5 py-3 bg-orange"
+        style="background-color: #f48020;"
+    >
+        <div class="text-center">
+            <h1 class="fs-3 fw-semibold">
                 <a href="{% url 'menu' %}">
-                    Menu
-                </a> 
-            </li>
-            <li>
-                <a href="{% url 'cart' %}">
-                    Orden
+                    50 amigos
                 </a>
-            </li>
-        </ul>
+            </h1>
+        </div>
+        <div class="ml-auto">
+            <ul class="d-flex align-items-center gap-5 list-unstyled my-auto">
+                <li class="align-self-center">
+                    <a href="{% url 'menu' %}">
+                        Menu
+                    </a> 
+                </li>
+                {% if request.path != '/orden/' %}
+                <li class="align-self-center">
+                    <a href="{% url 'cart' %}">
+                        Orden
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
     </nav>
-    {% block content %}
-    {% endblock %}
+    <div>
+        {% block content %}
+        {% endblock %}
+    </div>
 </body>
 </html>

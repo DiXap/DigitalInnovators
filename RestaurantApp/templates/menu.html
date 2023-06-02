@@ -1,25 +1,32 @@
 {% extends 'base.html' %}
-
+{% load static
+{% block title %}
+<title>50 amigos - Menú</title>
+{% endblock %}
 
 {% block content %}
-<h1>Este es el menu</h1>
 
-{% for key, value in menu.items %}
-<section>
-    <h2>
-        <a href="{% url 'category' key %}">{{key}}</a>
-    </h2>
-    <ul>
-        {% for item in value %}
-        <li>
-            <a href="{% url 'item_details' key item.id %}">
-                <h3>{{item.name}}</h3>
-                <p>{{item.description}}</p>
+<div class="d-flex flex-column justify-content-center align-items-center mx-auto text-center mt-5">
+    <h1 class="fs-1">Menú</h1>
+    <div class="row gap-4 p-5">
+        {% for key, value in menu.items %}
+        <div class="position-relative col px-1" style="max-width: 350px;">
+            <img 
+                id="cat-thumbnail"
+                src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" 
+                alt="Category"
+                class="object-fit-contain rounded mw-100"
+            >
+            <a href="{% url 'category' key %}">
+                <div class="d-flex justify-content-center align-items-center position-absolute top-0 start-0 bottom-0 end-0 thumbnail mw-50 mx-1 rounded">
+                    <p class="text-white fw-bold fs-4">
+                        {{key}}
+                    </p>
+                </div>
             </a>
-        </li>
+        </div>
         {% endfor %}
-    </ul>
-</section>
-{% endfor %}
+    </div>
+</div>
 
 {% endblock %}

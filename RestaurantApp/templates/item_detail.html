@@ -1,10 +1,30 @@
 {% extends 'base.html' %}
 
+{% block title %}
+<title>50 amigos - {{item.name}}</title>
+{% endblock %}
 
 {% block content %}
-<h1>{{item.name}}</h1>
-<p>{{item.description}}</p>
-<p>{{item.price}}</p>
-
+<div class="row h-screen">
+<div class="col">
+    <img src="https://images.unsplash.com/photo-1482049016688-2d3e1b311543?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=710&q=80" 
+    alt={{item.name}}
+    class="w-100"
+    >
+</div>
+<div class="col-3 mt-5 d-flex flex-column">
+    <h1 class="fs-1">{{item.name}}</h1>
+    <p>{{item.description}}</p>
+    <p>{{item.price}}</p>
+    <div class="mt-5">
+        <form action="{% url 'item_add' item.category item.id %}" method="post">
+            {% csrf_token %}
+            <button class="btn btn-success btn-lg" type="submit">
+                Ordenar
+            </button>
+        </form>
+    </div>
+</div>
+</div>
 
 {% endblock %}
