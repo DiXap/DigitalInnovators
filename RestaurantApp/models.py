@@ -48,3 +48,18 @@ class Sale(models.Model):
 
     def __str__(self) -> str:
         return f'{self.table} - {self.sale} @ {self.time}'
+
+
+class Comensal(models.Model):
+    name = models.CharField(max_length=100)
+    table = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self) -> str:
+        return f'{self.name} @ {self.table}'
+
+class Helado(models.Model):
+    table = models.ForeignKey(User, on_delete=models.CASCADE)
+    flavour = models.CharField(max_length=100)
+
+    def __str__(self) -> str:
+        return f'{self.flavour} @ {self.table}'

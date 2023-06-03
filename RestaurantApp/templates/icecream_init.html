@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block title %}
-<title>50 amigos - Checkout</title>
+<title>50 amigos - Dinámica del Helado</title>
 {% endblock %}
 
 {% block content %}
@@ -15,18 +15,28 @@
         </div>
         <div class="col-md-3 mt-5 d-flex flex-column justify-content-between h-25">
             <div class="px-2">
-                <h1 class="fs-1">Tu orden está en proceso ...</h1>
-                <p>Se ha mandado tu orden a la cocina y está siendo preparada en estos momentos</p>
-                <p>Puedes hacer un nuevo pedido o continuar a la dinámica del helado</p>
+                <h1 class="fs-1">Está por comenzar la dinámica para el helado de cortesía</h1>
+                <p>
+                    Introduce el nombre de un participante y presiona el botón "Agregar participante" tantas veces como 
+                    personas estén en la mesa.
+                </p>
+                <p>
+                    Presiona continuar una vez se ingresen todos los nombres.
+                </p>
             </div>
             <div class="mt-5 ms-1 pb-3 container-fluid">
                 <div class="row mt-3">
-                    <a href="{% url 'menu' %}" class="btn btn-secondary py-2 fs-5 text-white">
-                        Hacer nuevo pedido
-                    </a>
+                    <form class="w-100 p-0" action="{% url 'dinamica_add' %}" method="POST">
+                        {% csrf_token %}
+                        {{form}}
+
+                        <button class="btn btn-secondary mt-3 pb-2 fs-5 text-white w-100">
+                            Agregar participante
+                        </button>
+                    </form>
                 </div>
                 <div class="row mt-3">
-                    <a href="{% url 'dinamica' %}" class="btn btn-success py-2 fs-5 text-white">
+                    <a href="{% url 'dinamica_init' %}" class="btn btn-success py-2 fs-5 text-white">
                         Continuar al helado
                     </a>
                 </div>

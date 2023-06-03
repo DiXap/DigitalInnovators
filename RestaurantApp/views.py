@@ -6,10 +6,12 @@ from django.contrib.auth import login, logout, authenticate
 from django.db.models import Count, Sum
 from django.contrib.auth.decorators import login_required
 
-from .models import Menu, Categories, CartItem, KitchenOrder, Sale
+from .models import Menu, Categories, CartItem, KitchenOrder, Sale, Comensal
+from .forms import ComensalForm, HeladoForm
 
 from collections import Counter
 import decimal
+import random
 
 # Create your views here.
 def home(request):
@@ -213,3 +215,52 @@ def checkout(request):
         pass
 
     return render(request, 'cart.html')
+
+
+@login_required
+def icecream(request):
+    if request.method == 'GET':
+        return render(request, 'icecream_init.html', {
+            'form': ComensalForm
+        })
+    else:
+        try:
+            form = ComensalForm(request.POST)
+            comensal = form.save(commit=False)
+            comensal.table = request.user
+            comensal.save()
+            messages.success(request, 'Añadido con éxito')
+            return redirect('dinamica_init')
+        except:
+            return render(request, 'icecream_init.html', {
+                'form': ComensalForm,
+                'errro': 'Introduce información válida',
+            })
+
+@login_required
+def icecream_init(request):
+    comensales = Comensal.objects.filter(table=request.user)
+    helados = Menu.objects.filter(category='Helado')
+    flavours = [flv.name for flv in helados]
+    print(flavours)
+
+    return render(request, 'icecream_main.html', {
+        'comensales': comensales,
+        'flavours': flavours
+    })
+
+
+@login_required
+def icecream_result(request):
+    helados = Menu.objects.filter(category='Helado')
+    flavours = [flv.name for flv in helados]
+    winner = flavours[random.randint(-1, len(flavours) - 1)]
+
+    return render(request, 'icecream_result.html', {
+        'winner': winner,
+    })
+
+@login_required
+def signout(request):
+    logout(request)
+    return redirect('home')

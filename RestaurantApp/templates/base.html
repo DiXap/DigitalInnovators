@@ -30,6 +30,8 @@
             <h1 class="fs-3 fw-semibold">
                 {% if request.path == '/' %}
                 <a href="{% url 'home' %}" style="color: rgba(243, 222, 222, 0.961);">
+                {% elif request.path == '/dinamica/result/' %}
+                <a href="#" style="color: rgba(243, 222, 222, 0.961);">
                 {% else %}
                 <a href="{% url 'menu' %}" style="color: rgba(243, 222, 222, 0.961);">
                 {% endif %}
@@ -37,7 +39,7 @@
                 </a>
             </h1>
         </div>
-        {% if request.path != '/' %}
+        {% if request.path != '/' and request.path != '/dinamica/result/' %}
         <div class="ml-auto">
             <ul class="d-flex align-items-center gap-5 list-unstyled my-auto">
                 <li class="align-self-center">
@@ -45,13 +47,24 @@
                         Menu
                     </a> 
                 </li>
-                {% if request.path != '/orden/' %}
+                {% if request.path != '/orden/' and request.path != '/dinamica/result/' %}
                 <li class="align-self-center">
                     <a href="{% url 'cart' %}">
                         Orden
                     </a>
                 </li>
                 {% endif %}
+            </ul>
+        </div>
+        {% endif %}
+        {% if request.path == '/' %}
+        <div class="ml-auto">
+            <ul class="d-flex align-items-center gap-5 list-unstyled my-auto">
+                <li class="align-self-center">
+                    <a href="admin/">
+                        Admin
+                    </a>
+                </li>
             </ul>
         </div>
         {% endif %}

@@ -32,6 +32,11 @@ urlpatterns = [
     path('orden/editar/', views.modify_order, name='modify_order'),
     path('orden/editar/<int:item_id>/remove/', views.cart_remove_item, name='item_remove'),
     path('orden/checkout/', views.checkout, name='checkout'),
+    path('dinamica/', views.icecream, name='dinamica'),
+    path('dinamica/add/', views.icecream, name='dinamica_add'),
+    path('dinamica/init/', views.icecream_init, name='dinamica_init'),
+    path('dinamica/result/', views.icecream_result, name='dinamica_result'),
+    path('end/', views.signout, name='signout'),
 ]
 
 urlpatterns += staticfiles_urlpatterns()
