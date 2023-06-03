@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>50 amigos - Helado gratis</title>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid mx-auto text-center my-5">
+    <h1 class="fs-1 mb-5">¡Hora del helado!</h1>
+    {% for item in comensales %}
+    {% if forloop.first %}
+    <div class="row gap-4 d-flex flex-row justify-content-center">
+    {% endif %}
+        <div class="position-relative col-md-2 px-1" style="max-width: 350px;">
+            <img 
+            id="cat-thumbnail"
+            src="https://images.unsplash.com/photo-1482049016688-2d3e1b311543?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=710&q=80"
+            alt={{item.name}}
+            class="img-fluid object-fit-contain rounded mw-100"
+            >
+            <div class="px-2">
+                <h1 class="fs-4 pt-2">{{item.name}}</h1>
+            </div>
+        </div>
+    {% if forloop.counter|divisibleby:3 %}
+    </div><div class="row gap-4 mt-4 d-flex flex-row justify-content-center">
+    {% endif %}
+    {% if forloop.last %}
+    </div>
+    {% endif %}
+    {% endfor %}
+
+</div>
+
+
+{% endblock %}

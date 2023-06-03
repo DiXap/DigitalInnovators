@@ -6,7 +6,7 @@ from django.contrib.auth import login, logout, authenticate
 from django.db.models import Count, Sum
 from django.contrib.auth.decorators import login_required
 
-from .models import Menu, Categories, CartItem, KitchenOrder, Sale
+from .models import Menu, Categories, CartItem, KitchenOrder, Sale, Comensal
 from .forms import ComensalForm
 
 from collections import Counter
@@ -217,7 +217,7 @@ def checkout(request):
 
 
 @login_required
-def icecream_init(request):
+def icecream(request):
     if request.method == 'GET':
         return render(request, 'icecream_init.html', {
             'form': ComensalForm
@@ -235,3 +235,10 @@ def icecream_init(request):
                 'form': ComensalForm,
                 'errro': 'Introduce información válida',
             })
+
+@login_required
+def icecream_init(request):
+    comensales = Comensal.objects.filter(table=request.user)
+    return render(request, 'icecream_main.html', {
+        'comensales': comensales,
+    })
