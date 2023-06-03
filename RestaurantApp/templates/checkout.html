@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div>
+    {% for item, qty in kitchen.items %}
+    <div>
+        <p>{{ qty }}</p>
+        <p>{{ item }}</p>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

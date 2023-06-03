@@ -6,7 +6,7 @@ from django.contrib.auth import login, logout, authenticate
 from django.db.models import Count, Sum
 from django.contrib.auth.decorators import login_required
 
-from .models import Menu, Categories, CartItem
+from .models import Menu, Categories, CartItem, KitchenOrder, Sale
 
 from collections import Counter
 import decimal
@@ -159,3 +159,43 @@ def cart_remove_item(request, item_id):
         return render(request, 'modify_order.html', {
             'error': 'No se ha podido completar la solicitud'
         })
+
+def checkout(request):
+    try:
+        cart = CartItem.objects.filter(table= request.user).order_by('-time')
+        
+        # Get dupes
+        order = [i.item.name for i in cart]
+        print(order)
+        dupes = dict(Counter(order))
+        b = {key: value for key, value in dupes.items()}
+        print(b)
+
+        # Get item prices
+        c = {key.item.name: key.item.price for key in cart}
+
+        # Build a dict with relevant info to display in template
+        breakdown = {i: [decimal.Decimal(v)] for i, v in b.items()}
+        for i in c.keys():
+            breakdown[i].append(c[i])
+
+        # Get cart total per item
+        for i in b.keys():
+            c[i] = decimal.Decimal(b[i]) * c[i]
+
+        # Calculate order total
+        total = decimal.Decimal(0)
+        for i, price in c.items():
+            total += price
+
+        
+        cart.delete()
+
+        return render(request, 'checkout.html', {
+            'kitchen': b,
+        })
+    
+    except:
+        pass
+
+    return render(request, 'checkout.html')

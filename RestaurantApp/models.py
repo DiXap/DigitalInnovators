@@ -27,4 +27,24 @@ class CartItem(models.Model):
 
     def __str__(self) -> str:
         return f'{self.table.username} - {self.item.name} @ {self.time}'
-        # return f'@ {self.time}'
+
+
+class KitchenOrder(models.Model):
+    time = models.DateTimeField(auto_now_add=True)
+    order = models.TextField(blank=True)
+
+    table = models.ForeignKey(User, on_delete=models.CASCADE)
+
+
+    def __str__(self) -> str:
+        return f'{self.table} @ {self.time}'
+
+class Sale(models.Model):
+    time = models.DateTimeField(auto_now_add=True)
+    order = models.TextField(blank=True)
+    sale = models.DecimalField(max_digits=7, decimal_places=2)    
+
+    table = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self) -> str:
+        return f'{self.table} - {self.sale} @ {self.time}'
