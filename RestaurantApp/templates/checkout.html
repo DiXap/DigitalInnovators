@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block title %}
-<title>50 amigos - {{item.name}}</title>
+<title>50 amigos - Checkout</title>
 {% endblock %}
 
 {% block content %}
@@ -9,26 +9,25 @@
     <div class="row">
         <div class="col-md pe-0" style="max-height: 95vh;">
             <img src="https://images.unsplash.com/photo-1482049016688-2d3e1b311543?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=710&q=80" 
-            alt={{item.name}}
+            alt="50 amigos"
             class="h-100 w-100"
             >
         </div>
         <div class="col-md-3 mt-5 d-flex flex-column justify-content-between h-25">
             <div class="px-2">
-                <h1 class="fs-1">{{item.name}}</h1>
-                <p>{{item.description}}</p>
-                <p>$ {{item.price}} MXN.</p>
+                <h1 class="fs-1">Tu orden está en proceso ...</h1>
+                <p>Se ha mandado tu orden a la cocina y está siendo preparada en estos momentos</p>
+                <p>Puedes hacer un nuevo pedido o continuar a la dinámica del helado</p>
             </div>
             <div class="mt-5 ms-1 pb-3 container-fluid">
-                <form class="row" action="{% url 'item_add' item.category item.id %}" method="post">
-                    {% csrf_token %}
-                    <button class="btn btn-success btn-lg" type="submit">
-                        Ordenar
-                    </button>
-                </form>
                 <div class="row mt-3">
-                    <a href="{% url 'category' item.category %}" class="btn btn-secondary py-2 fs-5 text-white">
-                        Regresar
+                    <a href="{% url 'menu' %}" class="btn btn-secondary py-2 fs-5 text-white">
+                        Hacer nuevo pedido
+                    </a>
+                </div>
+                <div class="row mt-3">
+                    <a href="{% url 'menu' %}" class="btn btn-success py-2 fs-5 text-white">
+                        Continuar al helado
                     </a>
                 </div>
                 {% if messages %}
@@ -49,5 +48,6 @@
         </div>
     </div>
 </div>
+
 
 {% endblock %}

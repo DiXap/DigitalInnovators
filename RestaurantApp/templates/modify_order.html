@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block title %}
-<title>50 amigos - Orden </title>
+<title>50 amigos - Editar orden </title>
 {% endblock %}
 
 {% block content %}
@@ -11,7 +11,7 @@
     <div 
         class="col-md-3 d-flex flex-column justify-content-center align-items-center ms-3 mb-auto text-center mt-5 border" 
     >    
-        <p class="fs-1 my-3">Resumen</p>
+        <p class="fs-1 my-3">Orden</p>
         {% if messages %}
             {% for message in messages %}
             <div 
@@ -27,40 +27,32 @@
             {% endfor %}
         {% endif %}
         <div class="mt-2">
-            {% for i, val in breakdown.items %}
-                <div class="text-start">
+            {% for i, val, id in breakdown %}
+                <div class="text-start mt-3">
                     <p class="fs-3">{{i}}</p>
                 </div>
                 <div class="d-flex flex-row justify-content-start gap-5">
-                    {% for j in val %}
-                        <p class="fs-5">{{j}}</p>
-                    {% endfor %}
+                    <p class="fs-5">{{val}}</p>
+                    <form action="{% url 'item_remove' id %}" method="post" class="ms-auto">
+                        {% csrf_token %}
+                        <button class="btn btn-warning fw-semibold">
+                            Eliminar
+                        </button>
+                    </form>
                 </div>
             {% endfor %}
             <p class="fs-2 fw-bold ms-auto text-end mt-3">Total: $ {{total}}</p>
         </div>
-        <div class="my-5 container-fluid">
-            <div class="row">
-                <div class="col">
-                    <a href="{% url 'modify_order' %}" 
-                       class="btn btn-warning btn-lg fw-bold" 
-                       style="min-width: 100%;"
-                    >
-                        Editar
-                    </a>
-                </div>
-                <form class="col" action="{% url 'checkout' %}" method="POST">
-                    {% csrf_token %}
-                    <button class="btn btn-danger btn-lg fw-bold" 
-                            style="min-width: 100%;" 
-                            type="submit">
-                        Checkout
-                    </button>
-                </form>
-            </div>
+        <div class="my-5">
+            <form action="{% url 'checkout' %}" method="POST">
+                {% csrf_token %}
+                <button class="btn btn-danger btn-lg fw-bold" type="submit">
+                    Checkout
+                </button>
+            </form>
         </div>
     </div>
-    <div class="col-md pe-0" style="max-height: 95vh;">
+    <div class="col-md pe-0" style="height: 100vh;">
         <img src="https://images.unsplash.com/photo-1482049016688-2d3e1b311543?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=710&q=80" 
         alt="Carrito"
         class="w-100 h-100"

@@ -29,6 +29,9 @@ urlpatterns = [
     path('menu/<str:category_id>/<int:item_id>/', views.menu_item_detail, name='item_details'),
     path('menu/<str:category_id>/<int:item_id>/add/', views.cart_add_item, name='item_add'),
     path('orden/', views.cart, name='cart'),
+    path('orden/editar/', views.modify_order, name='modify_order'),
+    path('orden/editar/<int:item_id>/remove/', views.cart_remove_item, name='item_remove'),
+    path('orden/checkout/', views.checkout, name='checkout'),
 ]
 
 urlpatterns += staticfiles_urlpatterns()

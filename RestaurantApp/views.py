@@ -1,11 +1,12 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
 from django.db.models import Count, Sum
 from django.contrib.auth.decorators import login_required
 
-from .models import Menu, Categories, CartItem
+from .models import Menu, Categories, CartItem, KitchenOrder, Sale
 
 from collections import Counter
 import decimal
@@ -43,19 +44,31 @@ def menu(request):
 
 @login_required
 def menu_item_detail(request, category_id, item_id):
-    item = get_object_or_404(Menu, pk=item_id)
-    return render(request, 'item_detail.html', {
-        'item': item,
-    })
+    if request.method == 'GET':
+        try:
+            item = get_object_or_404(Menu, pk=item_id)
+            return render(request, 'item_detail.html', {
+                'item': item,
+            })
+        except:
+            pass
+    
+    return render(request, 'item_detail.html')
 
 @login_required
 def menu_category(request, category_id):
-    category = get_object_or_404(Categories, pk=category_id)
-    items = Menu.objects.filter(category=category)
-    return render(request, 'category.html', {
-        'category': category,
-        'items': items,
-    })
+    if request.method == 'GET':
+        try:
+            category = get_object_or_404(Categories, pk=category_id)
+            items = Menu.objects.filter(category=category)
+            return render(request, 'category.html', {
+                'category': category,
+                'items': items,
+            })
+        except:
+            pass
+    
+    return render(request, 'category.html')
 
 @login_required
 def cart(request):
@@ -103,6 +116,100 @@ def cart_add_item(request, category_id, item_id):
         cart_item = CartItem(item=menu_item, table=request.user)
         cart_item.save()
 
-        return redirect('item_detail')
+        messages.success(request, 'Se agregó a la orden')
+        return redirect('item_details', category_id=category_id, item_id=item_id)
     except:
-        return menu_item_detail(request, category_id, item_id)
+        return redirect('item_details', category_id=category_id, item_id=item_id)
+
+@login_required
+def modify_order(request):
+    if request.method == 'GET':  # TODO. Try to use a query
+        try:
+            # Query
+            cart = CartItem.objects.filter(table= request.user).order_by('-time')
+
+            # Build a dict with relevant info to display in template
+            order_items = [(i.item.name, i.item.price, i.pk) for i in cart]
+
+            # Calculate order total
+            total = decimal.Decimal(0)
+            for _, price, _ in order_items:
+                total += price
+
+            # print(cart)
+
+            return render(request, 'modify_order.html', {
+                'breakdown': order_items,
+                'total': total,
+            })
+        except:
+            pass
+    return render(request, 'modify_order.html')
+
+@login_required
+def cart_remove_item(request, item_id):
+    try:
+        cart_item = get_object_or_404(CartItem, pk=item_id)
+        cart_item.delete()
+        # print(f'item {cart_item}')
+        
+        messages.warning(request, 'Se eliminó de la orden')
+        return redirect('modify_order')
+    except:
+        return render(request, 'modify_order.html', {
+            'error': 'No se ha podido completar la solicitud'
+        })
+
+@login_required
+def checkout(request):
+    try:
+        cart = CartItem.objects.filter(table= request.user).order_by('-time')
+        
+        # Get dupes
+        order = [i.item.name for i in cart]
+        print(order)
+        dupes = dict(Counter(order))
+        b = {key: value for key, value in dupes.items()}
+        print(b)
+
+        # Get item prices
+        c = {key.item.name: key.item.price for key in cart}
+
+        # Build a dict with relevant info to display in template
+        breakdown = {i: [decimal.Decimal(v)] for i, v in b.items()}
+        for i in c.keys():
+            breakdown[i].append(c[i])
+
+        # Get cart total per item
+        for i in b.keys():
+            c[i] = decimal.Decimal(b[i]) * c[i]
+
+        # Calculate order total
+        total = decimal.Decimal(0)
+        for i, price in c.items():
+            total += price
+
+        kitchen = KitchenOrder(table=request.user, order=f'{b}')
+
+        sale = Sale(table=request.user, order=f'{b}', sale=total)
+
+        print(kitchen)
+        print(sale)
+        if b:
+            kitchen.save()
+            sale.save()
+            cart.delete()
+            messages.success(request, 'Orden procesada con exito')
+
+            return render(request, 'checkout.html', {
+                'kitchen': b,
+            })
+        else:
+            messages.warning(request, 'Nada para mandar a la cocina')
+
+            return redirect('cart')
+    
+    except:
+        pass
+
+    return render(request, 'cart.html')
