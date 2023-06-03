@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block title %}
-<title>50 amigos - Orden </title>
+<title>50 amigos - Orden</title>
 {% endblock %}
 
 {% block content %}
@@ -60,8 +60,9 @@
             </div>
         </div>
     </div>
+    {% load static %}
     <div class="col-md pe-0" style="max-height: 95vh;">
-        <img src="https://images.unsplash.com/photo-1482049016688-2d3e1b311543?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=710&q=80" 
+        <img src="{% static 'images/ordenfondo.jpg' %}" 
         alt="Carrito"
         class="w-100 h-100"
         >
