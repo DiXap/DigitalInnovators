@@ -11,15 +11,35 @@
     {% if forloop.first %}
     <div class="row gap-4 d-flex flex-row justify-content-center">
     {% endif %}
-        <div class="position-relative col-md-2 px-1" style="max-width: 350px;">
+        <div class="position-relative col-md-2 px-1 text-center" style="max-width: 350px;">
             <img 
             id="cat-thumbnail"
             src="https://images.unsplash.com/photo-1482049016688-2d3e1b311543?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=710&q=80"
             alt={{item.name}}
             class="img-fluid object-fit-contain rounded mw-100"
             >
-            <div class="px-2">
+            <div class="d-flex flex-column align-items-center px-2">
                 <h1 class="fs-4 pt-2">{{item.name}}</h1>
+                {% comment %}
+                <form class="w-100 p-0" action="{% url 'dinamica_add' %}" method="POST">
+                    {% csrf_token %}
+                    {{form}}
+
+                    <button class="btn btn-secondary mt-3 pb-2 fs-5 text-white w-100">
+                        Agregar participante
+                    </button>
+                </form>
+                {% endcomment %}
+                <div class="dropdown me-1">
+                    <button type="button" class="mt-3 px-4 btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" data-bs-offset="10,20">
+                      Helado
+                    </button>
+                    <ul class="dropdown-menu">
+                        {% for i in flavours %}
+                        <li><a class="dropdown-item" href="#">{{ i }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
             </div>
         </div>
     {% if forloop.counter|divisibleby:3 %}
@@ -29,6 +49,11 @@
     </div>
     {% endif %}
     {% endfor %}
+    <div class="mt-3 w-100">
+        <a href="{% url 'dinamica_result' %}" class="btn btn-success py-2 fs-5 text-white">
+            Continuar
+        </a>
+    </div>
 
 </div>
 
