@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
@@ -43,19 +44,31 @@ def menu(request):
 
 @login_required
 def menu_item_detail(request, category_id, item_id):
-    item = get_object_or_404(Menu, pk=item_id)
-    return render(request, 'item_detail.html', {
-        'item': item,
-    })
+    if request.method == 'GET':
+        try:
+            item = get_object_or_404(Menu, pk=item_id)
+            return render(request, 'item_detail.html', {
+                'item': item,
+            })
+        except:
+            pass
+    
+    return render(request, 'item_detail.html')
 
 @login_required
 def menu_category(request, category_id):
-    category = get_object_or_404(Categories, pk=category_id)
-    items = Menu.objects.filter(category=category)
-    return render(request, 'category.html', {
-        'category': category,
-        'items': items,
-    })
+    if request.method == 'GET':
+        try:
+            category = get_object_or_404(Categories, pk=category_id)
+            items = Menu.objects.filter(category=category)
+            return render(request, 'category.html', {
+                'category': category,
+                'items': items,
+            })
+        except:
+            pass
+    
+    return render(request, 'category.html')
 
 @login_required
 def cart(request):
@@ -103,9 +116,10 @@ def cart_add_item(request, category_id, item_id):
         cart_item = CartItem(item=menu_item, table=request.user)
         cart_item.save()
 
-        return redirect('item_detail')
+        messages.success(request, 'Se agregó a la orden')
+        return redirect('item_details', category_id=category_id, item_id=item_id)
     except:
-        return menu_item_detail(request, category_id, item_id)
+        return redirect('item_details', category_id=category_id, item_id=item_id)
 
 @login_required
 def modify_order(request):
@@ -119,7 +133,7 @@ def modify_order(request):
 
             # Calculate order total
             total = decimal.Decimal(0)
-            for i, price, _ in order_items:
+            for _, price, _ in order_items:
                 total += price
 
             # print(cart)
@@ -138,7 +152,8 @@ def cart_remove_item(request, item_id):
         cart_item = get_object_or_404(CartItem, pk=item_id)
         cart_item.delete()
         # print(f'item {cart_item}')
-
+        
+        messages.warning(request, 'Se eliminó de la orden')
         return redirect('modify_order')
     except:
         return render(request, 'modify_order.html', {

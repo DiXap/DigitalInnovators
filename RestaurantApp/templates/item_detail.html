@@ -31,12 +31,21 @@
                         Regresar
                     </a>
                 </div>
+                {% if messages %}
+                    {% for message in messages %}
+                    <div 
+                        class="alert {{message.tags}} alert-dismissable fade show 
+                               d-flex flex-row align-items-center justify-content-between 
+                               text-success fs-5 fw-semibold
+                               row mt-4"
+                        role="alert"
+                    >
+                        {{ message }}
+                        <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    {% endfor %}
+                {% endif %}
             </div>
-            {% if success %}
-            <div class="mt-5 border border-sucess p-2">
-                <h1>{{success}}</h1>
-            </div>
-            {% endif %}
         </div>
     </div>
 </div>
