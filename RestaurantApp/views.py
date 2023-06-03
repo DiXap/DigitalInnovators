@@ -7,6 +7,7 @@ from django.db.models import Count, Sum
 from django.contrib.auth.decorators import login_required
 
 from .models import Menu, Categories, CartItem, KitchenOrder, Sale
+from .forms import ComensalForm
 
 from collections import Counter
 import decimal
@@ -213,3 +214,24 @@ def checkout(request):
         pass
 
     return render(request, 'cart.html')
+
+
+@login_required
+def icecream_init(request):
+    if request.method == 'GET':
+        return render(request, 'icecream_init.html', {
+            'form': ComensalForm
+        })
+    else:
+        try:
+            form = ComensalForm(request.POST)
+            comensal = form.save(commit=False)
+            comensal.table = request.user
+            comensal.save()
+            messages.success(request, 'Añadido con éxito')
+            return redirect('dinamica_init')
+        except:
+            return render(request, 'icecream_init.html', {
+                'form': ComensalForm,
+                'errro': 'Introduce información válida',
+            })

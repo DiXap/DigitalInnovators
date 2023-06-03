@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>50 amigos - Dinámica del Helado</title>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid ps-0 pb-0">
+    <div class="row">
+        <div class="col-md pe-0" style="max-height: 95vh;">
+            <img src="https://images.unsplash.com/photo-1482049016688-2d3e1b311543?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=710&q=80" 
+            alt="50 amigos"
+            class="h-100 w-100"
+            >
+        </div>
+        <div class="col-md-3 mt-5 d-flex flex-column justify-content-between h-25">
+            <div class="px-2">
+                <h1 class="fs-1">Está por comenzar la dinámica para el helado de cortesía</h1>
+                <p>
+                    Introduce el nombre de un participante y presiona el botón "Agregar participante" tantas veces como 
+                    personas estén en la mesa.
+                </p>
+                <p>
+                    Presiona continuar una vez se ingresen todos los nombres.
+                </p>
+            </div>
+            <div class="mt-5 ms-1 pb-3 container-fluid">
+                <div class="row mt-3">
+                    <form class="w-100 p-0" action="" method="POST">
+                        {% csrf_token %}
+                        {{form}}
+
+                        <a href="{% url 'menu' %}" class="btn btn-secondary mt-3 pb-2 fs-5 text-white w-100">
+                            Agregar participante
+                        </a>
+                    </form>
+                </div>
+                <div class="row mt-3">
+                    <a href="{% url 'menu' %}" class="btn btn-success py-2 fs-5 text-white">
+                        Continuar al helado
+                    </a>
+                </div>
+                {% if messages %}
+                    {% for message in messages %}
+                    <div 
+                        class="alert {{message.tags}} alert-dismissable fade show 
+                               d-flex flex-row align-items-center justify-content-between 
+                               text-success fs-5 fw-semibold
+                               row mt-4"
+                        role="alert"
+                    >
+                        {{ message }}
+                        <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
