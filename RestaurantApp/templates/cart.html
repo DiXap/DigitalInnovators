@@ -12,6 +12,20 @@
         class="col-md-3 d-flex flex-column justify-content-center align-items-center ms-3 mb-auto text-center mt-5 border" 
     >    
         <p class="fs-1 my-3">Resumen</p>
+        {% if messages %}
+            {% for message in messages %}
+            <div 
+                class="alert {{message.tags}} alert-dismissable fade show 
+                       d-flex flex-row align-items-center justify-content-between 
+                       text-warning fs-5 fw-semibold
+                       w-100"
+                role="alert"
+            >
+                {{ message }}
+                <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endfor %}
+        {% endif %}
         <div class="mt-2">
             {% for i, val in breakdown.items %}
                 <div class="text-start">
@@ -35,7 +49,7 @@
                         Editar
                     </a>
                 </div>
-                <form class="col" action="" method="POST">
+                <form class="col" action="{% url 'checkout' %}" method="POST">
                     {% csrf_token %}
                     <button class="btn btn-danger btn-lg fw-bold" 
                             style="min-width: 100%;" 

@@ -160,6 +160,7 @@ def cart_remove_item(request, item_id):
             'error': 'No se ha podido completar la solicitud'
         })
 
+@login_required
 def checkout(request):
     try:
         cart = CartItem.objects.filter(table= request.user).order_by('-time')
@@ -188,14 +189,27 @@ def checkout(request):
         for i, price in c.items():
             total += price
 
-        
-        cart.delete()
+        kitchen = KitchenOrder(table=request.user, order=f'{b}')
 
-        return render(request, 'checkout.html', {
-            'kitchen': b,
-        })
+        sale = Sale(table=request.user, order=f'{b}', sale=total)
+
+        print(kitchen)
+        print(sale)
+        if b:
+            kitchen.save()
+            sale.save()
+            cart.delete()
+            messages.success(request, 'Orden procesada con exito')
+
+            return render(request, 'checkout.html', {
+                'kitchen': b,
+            })
+        else:
+            messages.warning(request, 'Nada para mandar a la cocina')
+
+            return redirect('cart')
     
     except:
         pass
 
-    return render(request, 'checkout.html')
+    return render(request, 'cart.html')

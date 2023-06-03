@@ -44,7 +44,7 @@
             <p class="fs-2 fw-bold ms-auto text-end mt-3">Total: $ {{total}}</p>
         </div>
         <div class="my-5">
-            <form action="" method="POST">
+            <form action="{% url 'checkout' %}" method="POST">
                 {% csrf_token %}
                 <button class="btn btn-danger btn-lg fw-bold" type="submit">
                     Checkout
