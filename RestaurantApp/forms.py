@@ -1,5 +1,5 @@
 from django import forms
-from .models import Comensal, Helado
+from .models import Comensal
 
 class ComensalForm(forms.ModelForm):
     class Meta:

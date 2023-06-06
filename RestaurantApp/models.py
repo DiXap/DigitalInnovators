@@ -12,6 +12,7 @@ class Menu(models.Model):
     name = models.CharField(max_length=200, unique=True)
     description = models.TextField(blank=True)
     price = models.DecimalField(max_digits=6, decimal_places=2)
+    image = models.CharField(default='', max_length=2000)
 
     category = models.ForeignKey(Categories, on_delete=models.CASCADE)
 
@@ -57,9 +58,9 @@ class Comensal(models.Model):
     def __str__(self) -> str:
         return f'{self.name} @ {self.table}'
 
-class Helado(models.Model):
-    table = models.ForeignKey(User, on_delete=models.CASCADE)
-    flavour = models.CharField(max_length=100)
+# class Helado(models.Model):
+#     table = models.ForeignKey(User, on_delete=models.CASCADE)
+#     flavour = models.CharField(max_length=100)
 
-    def __str__(self) -> str:
-        return f'{self.flavour} @ {self.table}'
+#     def __str__(self) -> str:
+#         return f'{self.flavour} @ {self.table}'
