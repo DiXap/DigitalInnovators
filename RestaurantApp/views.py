@@ -262,5 +262,13 @@ def icecream_result(request):
 
 @login_required
 def signout(request):
+    try:
+        comensales = Comensal.objects.filter(table=request.user)
+        kitchen = KitchenOrder.objects.filter(table=request.user)
+        comensales.delete()
+        kitchen.delete()
+    except:
+        pass
+
     logout(request)
     return redirect('home')
