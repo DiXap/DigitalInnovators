@@ -24,3 +24,10 @@ a:link, a:hover, a:visited, a:active {
     visibility: visible;
     animation: ease-in 300;
 }
+
+.custom-image {
+    width: 300px; /* Ajusta el ancho deseado */
+    height: 300px; /* Ajusta la altura deseada */
+    object-fit: cover; /* Ajusta la forma de ajuste (cover, contain, etc.) */
+  }
+  
