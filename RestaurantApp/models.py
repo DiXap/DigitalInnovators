@@ -14,6 +14,8 @@ class Menu(models.Model):
     price = models.DecimalField(max_digits=6, decimal_places=2)
 
     category = models.ForeignKey(Categories, on_delete=models.CASCADE)
+    imagen = models.CharField(default= ' ',max_length=2000)
+    #Imagen
 
     def __str__(self) -> str:
         return f'{self.name}: {self.category}'
