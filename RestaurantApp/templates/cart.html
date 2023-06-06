@@ -1,24 +1,19 @@
 {% extends 'base.html' %}
 
 {% block title %}
-<title>50 amigos - Orden </title>
+<title>50 amigos - Orden</title>
 {% endblock %}
 
 {% block content %}
 <div class="container-fluid pe-0 pb-0">
-
 <div class="row">
-    <div 
-        class="col-md-3 d-flex flex-column justify-content-center align-items-center ms-3 mb-auto text-center mt-5 border" 
-    >    
+    <div class="col-md-3 d-flex flex-column justify-content-center align-items-center ms-3 mb-auto text-center mt-5 border">    
         <p class="fs-1 my-3">Resumen</p>
         {% if messages %}
             {% for message in messages %}
-            <div 
-                class="alert {{message.tags}} alert-dismissable fade show 
+            <div class="alert {{message.tags}} alert-dismissable fade show 
                        d-flex flex-row align-items-center justify-content-between 
-                       text-warning fs-5 fw-semibold
-                       w-100"
+                       text-warning fs-5 fw-semibold w-100"
                 role="alert"
             >
                 {{ message }}
@@ -42,32 +37,24 @@
         <div class="my-5 container-fluid">
             <div class="row">
                 <div class="col">
-                    <a href="{% url 'modify_order' %}" 
-                       class="btn btn-warning btn-lg fw-bold" 
-                       style="min-width: 100%;"
-                    >
+                    <a href="{% url 'modify_order' %}" class="btn btn-warning btn-lg fw-bold" style="min-width: 100%;">
                         Editar
                     </a>
                 </div>
                 <form class="col" action="{% url 'checkout' %}" method="POST">
                     {% csrf_token %}
-                    <button class="btn btn-danger btn-lg fw-bold" 
-                            style="min-width: 100%;" 
-                            type="submit">
+                    <button class="btn btn-danger btn-lg fw-bold" style="min-width: 100%;" type="submit">
                         Checkout
                     </button>
                 </form>
             </div>
         </div>
     </div>
+    {% load static %}
     <div class="col-md pe-0" style="max-height: 95vh;">
-        <img src="https://images.unsplash.com/photo-1482049016688-2d3e1b311543?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=710&q=80" 
-        alt="Carrito"
-        class="w-100 h-100"
-        >
+        <img src="{% static 'images/carta.jpg' %}" alt="Carrito" class="w-100 h-100">
     </div>
 </div>
-
 </div>
 
 {% endblock %}
